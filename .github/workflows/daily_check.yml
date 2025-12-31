@@ -5,10 +5,10 @@ on:
     # UTC時間で記述 (JST-9時間)
     - cron: '5 3 * * *'   # JST 12:05
     - cron: '0 8 * * *'   # JST 17:00
-  workflow_dispatch:      # 手動実行ボタンも有効化
+  workflow_dispatch:      # 手動実行ボタン
 
 jobs:
-  build:
+  run-script:
     runs-on: ubuntu-latest
     
     steps:
@@ -26,10 +26,6 @@ jobs:
 
     - name: Run script
       env:
-        GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
-        SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        GMAIL_USER: ${{ secrets.GMAIL_USER }}
-        GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-        EMAIL_TO: ${{ secrets.EMAIL_TO }}
-      run: python -m src.main
+        # main.py の仕様に合わせて JSON入りのSecret 1つだけを渡す
+        APP_SECRETS: ${{ secrets.APP_SECRETS }}
+      run: python main.py
